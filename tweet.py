@@ -98,6 +98,7 @@ def rep_search():
                 with open(id_list_pass,mode='wb') as f:
                     pickle.dump(tweets,f)
                 time.sleep(0.5)
+            time.sleep(5)
 
     except KeyboardInterrupt:
         pass
