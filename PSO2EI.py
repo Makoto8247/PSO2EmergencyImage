@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 import datetime
 
 
-if __name__ == '__main__':
+def Make_Schedule():
     print("時間表を取得中...")
     # get url
     load_url = "http://pso2.jp/players/boost/"
