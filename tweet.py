@@ -67,6 +67,7 @@ def rep_search():
             if os.path.isfile(id_list_pass):
                 with open(id_list_pass,mode='rb') as f:
                     old_tweets = pickle.load(f)
+            time.sleep(0.5)
             cnt_range = 50
             tweets = {}
             user_id = "@Washi_Schedule exclude:retweets"
@@ -92,11 +93,11 @@ def rep_search():
                     # リプライ送信
                     rep(tweet_id,tweet_user_id)
             time.sleep(1)
-            print(tweets)
             if len(tweets) > 0:
                 # リスト保存
                 with open(id_list_pass,mode='wb') as f:
                     pickle.dump(tweets,f)
+                time.sleep(0.5)
 
     except KeyboardInterrupt:
         pass
@@ -127,7 +128,7 @@ def main():
         while True:
             weekday = dt.date.today().weekday()
             now_time = dt.datetime.now()
-            if weekday == 2 and now_time.hour == 15 and now_time.minute == 0 and now_time.second == 30: # 水曜日の時
+            if weekday == 2 and now_time.hour == 20 and now_time.minute == 0 and now_time.second == 30: # 水曜日の時
                 ei.Make_Schedule()
                 syu_twi()
             if weekday != old_weekday:
