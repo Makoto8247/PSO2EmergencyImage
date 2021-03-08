@@ -8,6 +8,7 @@ import datetime as dt
 import concurrent.futures
 import pickle
 import signal
+import time
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 CK = config.CONSUMER_KEY
@@ -21,11 +22,30 @@ schedule_id = "Washi_Schedule"
 url_text = "https://api.twitter.com/1.1/statuses/update.json" 
 url_media = "https://upload.twitter.com/1.1/media/upload.json"
 
-img_url = os.path.abspath("./emergency.png")
+def __init__():
+    ei.Make_Schedule()
+
+def Bal_Day():
+    now_day = dt.date.today().day
+    bal_day = []
+    bal = False
+    id_list_pass = os.path.abspath("./bal_day.pkl")
+    if os.path.isfile(id_list_pass):
+        with open(id_list_pass,mode='rb') as f:
+            bal_day = pickle.load(f)
+        for i in bal_day:
+            if now_day == i:
+                bal = True
+                break
+    return bal
+
 
 def rep(tweet_id,user_name):
     if user_name != schedule_id:
-        message = "@" + user_name + "\nリプライありがとうございます\n今週の緊急の予定はこちらです"
+        img_url = os.path.abspath("./day.png")
+        message = "@" + user_name + "\nリプライありがとうございます。\n本日の緊急の予定はこちらです。"
+        if Bal_Day():
+            message += "\n本日はバルロドスのデイリーがあります。"
         files = {"media" : open(img_url,"rb")}
         req_media = twitter.post(url_media, files = files)
         # レスポンス
@@ -60,6 +80,7 @@ def rep_search():
                 user = tweet['user']['screen_name']
                 tweets[id_int] = user
             # 重複確認
+            time.sleep(1)
             for tweet_id,tweet_user_id in tweets.items():
                 flg = True
                 if len(old_tweets) != 0:
@@ -70,6 +91,7 @@ def rep_search():
                 if flg:
                     # リプライ送信
                     rep(tweet_id,tweet_user_id)
+            time.sleep(1)
             print(tweets)
             if len(tweets) > 0:
                 # リスト保存
@@ -83,6 +105,7 @@ def rep_search():
 
 
 def syu_twi():
+    img_url = os.path.abspath("./emergency.png")
     files = {"media" : open(img_url,"rb")}
     req_media = twitter.post(url_media, files = files)
     # レスポンス
