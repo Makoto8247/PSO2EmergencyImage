@@ -8,9 +8,14 @@ import os
 import pickle
 from matplotlib.font_manager import FontProperties
 
+# Linux
 font_path = "/usr/share/fonts/truetype/migmix/migmix-1p-regular.ttf"
 font_prop = FontProperties(fname=font_path)
 rcParams["font.family"] = font_prop.get_name()
+# Windows
+#rcParams['font.family'] = 'sans-serif'
+#rcParams['font.sans-serif'] = ['Hiragino Maru Gothic Pro', 'Yu Gothic', 'Meirio', 'Takao', 'IPAexGothic', 'IPAPGothic', 'VL PGothic', 'Noto Sans CJK JP']
+font_size = 50
 
 def int_to_day():
     day = datetime.date.today().weekday()
@@ -73,7 +78,7 @@ def Day_Img(id_time,id_day,dt_now):
                 if i % 2 == 1:
                     tb[i,j].set_facecolor('#DDDDDD')
     print(day)
-    tb.set_fontsize(300)
+    tb.set_fontsize(font_size)
     plt.subplots_adjust(left=0.01, right=0.99, bottom=0.01, top=0.99)
     plt.savefig("day.png",format="png",dpi=108)
 
@@ -200,7 +205,7 @@ def Make_Schedule():
                 
 
     plt.title(title,fontsize = 50)
-    tb.set_fontsize(300)
+    tb.set_fontsize(font_size)
     plt.subplots_adjust(left=0.01, right=0.99, bottom=0.01, top=0.9)
     plt.savefig("emergency.png",format="png",dpi=100)
     print("画像生成完了しました。")
